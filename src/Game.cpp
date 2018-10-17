@@ -63,9 +63,12 @@ void Game::init() {
 	
 	//TODO in GraphicsSystem
 	// - replace hard coded view and project matrices with camera component (ECS.main_camera)
+	// - update camera matrices once per frame
 	// - look at fragment shader to understand new lighting code
 	// - basic: change rendering code to use Light component instead of hard-coded values
 	// - advanced: look at modified shader, change rendering code upload multiple lights
+	//			   then create several light entities of different colours to test them out
+	// - extra advanced: modify light component and shader to support a Directional light (from infinity)
 }
 
 //Entry point for game update code

@@ -31,9 +31,8 @@ void GraphicsSystem::update(float dt) {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 
-	//update cameras
-	auto& cameras = ECS.getAllComponents<Camera>();
-	for (auto &cam : cameras) cam.update();
+	//TODO:
+	// - update camera matrices here
 
 
     current_program_ = -1; //reset graphics component program
@@ -69,7 +68,7 @@ void GraphicsSystem::renderMeshComponent_(Mesh& comp) {
 
 	//TODO:
 	// - get a camera component using ECS.main_camera
-	// - replace hard coded matrix data with matrices of camera component
+	// - replace hard coded matrix data below, with matrices of camera component
 	// - change camera position to send to u_cam_pos uniform
 
 	lm::vec3 cam_position(0.0f, 0.0f, 3.0f);
@@ -130,7 +129,7 @@ void GraphicsSystem::renderMeshComponent_(Mesh& comp) {
 	GLint u_num_lights = glGetUniformLocation(current_program_, "u_num_lights"); //get/set uniform in shader
 	if (u_num_lights != -1) glUniform1i(u_num_lights, 1);
 	//position
-	std::string light_position_name = "lights[0].position"; // create dynamic uniform name
+	std::string light_position_name = "lights[0].position"; // uniform name
 	GLint u_light_pos = glGetUniformLocation(current_program_, light_position_name.c_str()); //find it
 	if (u_light_pos != -1) glUniform3fv(u_light_pos, 1, lm::vec3(1000.0,0.0,1000.0).value_); // light position
 	//color
