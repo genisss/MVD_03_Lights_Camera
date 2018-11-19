@@ -50,10 +50,10 @@ struct Mesh : public Component {
 
 //TODO:
 // - Create camera component
-// - should have position, forward and up vectors (lm::vec3) for rapid access
+// - should have position, target and up vectors (lm::vec3) for rapid access
 // - view, projection, and view_projection matrices (lm::mat4) for camera
-// - functions to set/update matrices (e.g. update view matrix when camera changes
 // - a constructor to create default values
+// - general update function (e.g. update view and view_projection matrix when camera changes)
 struct Camera : public Component {
 	
 
