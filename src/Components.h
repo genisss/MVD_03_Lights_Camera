@@ -61,7 +61,6 @@ struct Camera : public Component {
 };
 
 //Light Component
-// - id of transform in ECS array
 // - color of light
 //Later will be developed extensively
 struct Light : public Component {
