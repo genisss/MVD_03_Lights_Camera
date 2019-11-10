@@ -3,135 +3,17 @@
 
 #include <unordered_map>
 
+//function that splits a string into an std::vector of strings
 void split(std::string to_split, std::string delim, std::vector<std::string>& result) {
-	size_t last_offset = 0;
-	while (true) {
-		//find first delim
-		size_t offset = to_split.find_first_of(delim, last_offset);
-		result.push_back(to_split.substr(last_offset, offset - last_offset));
-		if (offset == std::string::npos) // if at end of string
-			break;
-		else //otherwise continue
-			last_offset = offset + 1;
-	}
+
 }
 
 //parses a wavefront object into passed arrays
 bool Parsers::parseOBJ(std::string filename, std::vector<float>& vertices, std::vector<float>& uvs, std::vector<float>& normals, std::vector<unsigned int>& indices) {
 
-	std::string line;
-	std::ifstream file(filename);
-	if (file.is_open())
-	{
-		//declare containers for temporary and final attributes
-		std::vector<lm::vec3> temp_vertices;
-		std::vector<lm::vec2> temp_uvs;
-		std::vector<lm::vec3> temp_normals;
-
-		//container to store map for indices
-		std::unordered_map<std::string, int> indices_map;
-		int next_index = 0; //stores next available index
-
-							//parse file line by line
-		while (std::getline(file, line))
-		{
-			//split line string
-			std::vector<std::string> words;
-			split(line, " ", words);
-
-			if (words.empty()) continue; //empty line, skip
-			if (words[0][0] == '#')	continue; //first word starts with #, line is a comment
-
-			if (words[0] == "v") { //line contains vertex data
-								   //read words to floats
-				lm::vec3 pos((float)atof(words[1].c_str()),
-					(float)atof(words[2].c_str()),
-					(float)atof(words[3].c_str()));
-				//add to temporary vector of positions
-				temp_vertices.push_back(pos);
-			}
-			if (words[0] == "vt") { //line contains texture data
-									//read words to floats
-				lm::vec2 tex((float)atof(words[1].c_str()),
-					(float)atof(words[2].c_str()));
-				//add to temporary vector of texture coords
-				temp_uvs.push_back(tex);
-			}
-			if (words[0] == "vn") { //line contains vertex data
-									//read words to floats
-				lm::vec3 norm((float)atof(words[1].c_str()),
-					(float)atof(words[2].c_str()),
-					(float)atof(words[3].c_str()));
-				//add to temporary vector of normals
-				temp_normals.push_back(norm);
-			}
-
-			//line contains face-vertex data
-			if (words[0] == "f") {
-				if (words.size() < 4) continue; // faces with fewer than 3 vertices??!
-
-				bool quad_face = false; //boolean to help us deal with quad faces
-
-				std::vector<std::string> nums; // container used for split indices
-											   //for each face vertex
-				for (int i = 1; i < words.size(); i++) {
-
-					//check if face vertex has already been indexed
-					if (indices_map.count(words[i]) == 0) {
-
-						//if not, start by getting all indices
-						nums.clear();
-						split(words[i], "/", nums);
-						int v_ind = atoi(nums[0].c_str()) - 1; //subtract 1 to convert to 0-based array!
-						int t_ind = atoi(nums[1].c_str()) - 1;
-						int n_ind = atoi(nums[2].c_str()) - 1;
-
-						//add vertices to final arrays of floats
-						for (int j = 0; j < 3; j++)
-							vertices.push_back(temp_vertices[v_ind].value_[j]);
-						for (int j = 0; j < 2; j++)
-							uvs.push_back(temp_uvs[t_ind].value_[j]);
-						for (int j = 0; j < 3; j++)
-							normals.push_back(temp_normals[n_ind].value_[j]);
-
-						//add an index to final array
-						indices.push_back(next_index);
-
-						//record that this index is used for this face vertex
-						indices_map[words[i]] = next_index;
-
-						//increment index
-						next_index++;
-					}
-					else {
-						//face vertex was already added to final arrays
-						//so search for its stored index
-						int the_index = indices_map.at(words[i]); //safe to use as we know it exists
-																  //add it to final index array
-						indices.push_back(the_index);
-					}
-
-					//***CHECK FOR QUAD FACES****
-					//If the face is a quads (i.e. words.size() == 5), we need to create two triangles
-					//out of the quad. We have already created one triangle with words[1], [2] and [3]
-					//now we make another with [4], [1] and [3]. 
-					if (i == 4) {
-						//face-vertex 4 is already added, so we search for indices of 1 and 3 and add them
-						int index_1 = indices_map.at(words[1]);
-						indices.push_back(index_1);
-						int index_3 = indices_map.at(words[3]);
-						indices.push_back(index_3);
-					}
-
-				}
-
-			}
-
-		}
-		file.close();
-		return true;
-	}
-	return false;
+    //obj parser goes here
+    
+    return false;
 }
 
 // load uncompressed RGB targa file into an OpenGL texture

@@ -25,7 +25,8 @@ void Game::init() {
 	graphics_system_.loadShader("phong", "data/shaders/phong.vert", "data/shaders/phong.frag");
     
     //geometries
-    int teapot_geom_id = graphics_system_.createGeometryFromFile("data/assets/teapot_small.obj");
+    //int teapot_geom_id = graphics_system_.createGeometryFromFile("data/assets/teapot_small.obj");
+    int teapot_geom_id = graphics_system_.createPlaneGeometry();
     
     //materials and textures
     int default_mat_id = graphics_system_.createMaterial();
@@ -40,7 +41,7 @@ void Game::init() {
     tmc.geometry = teapot_geom_id;
     tmc.material = default_mat_id;
     ECS.getComponentFromEntity<Transform>(ent_teapot).translate(0.0, -0.5, 0.0);
-    ECS.getComponentFromEntity<Transform>(ent_teapot).rotateLocal(0.7f, lm::vec3(0, 1, 0));
+    ECS.getComponentFromEntity<Transform>(ent_teapot).rotateLocal(-0.7f, lm::vec3(0, 1, 0));
     
 	//TODO in Components.h
 	// - have a look at the light component (already defined)

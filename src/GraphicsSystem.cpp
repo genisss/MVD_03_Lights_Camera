@@ -188,12 +188,14 @@ int GraphicsSystem::createPlaneGeometry(){
     return (int)geometries_.size() - 1;
 }
 
-//create geometry from
+//create geometry from an external file
 //returns index in geometry array with stored geometry data
 int GraphicsSystem::createGeometryFromFile(std::string filename) {
 
+    //these are the final arrays we will use to send to the GPU
     std::vector<GLfloat> vertices, uvs, normals;
     std::vector<GLuint> indices;
+    
     //check for supported format
     std::string ext = filename.substr(filename.size() - 4, 4);
     if (ext == ".obj" || ext == ".OBJ")
