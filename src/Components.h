@@ -56,7 +56,41 @@ struct Mesh : public Component {
 // - general update function (e.g. update view and view_projection matrix when camera changes)
 struct Camera : public Component {
 	
+	lm::vec3 position;
+	lm::vec3 up;
+	lm::vec3 forward;
+	lm::mat4 view_matrix;
+	lm::mat4 projection_matrix;
+	lm::mat4 view_projection;
 
+	Camera(){
+		position = lm::vec3(0.0f, 0.0f, 01.0f);
+		forward = lm::vec3(0.0f, 0.0f, -1.0f);
+		up = lm::vec3(0.0f, 1.0f, 0.0f);
+		lm::vec3 target = position + forward;
+
+		view_matrix.lookAt(position, target, up);
+		projection_matrix.perspective(60.0f * DEG2RAD, 1, 0.01f, 100.0f);
+
+
+	}
+
+	void update() {
+		//update viewMatrix based on current position and target
+		updateViewMatrix();
+		view_projection = projection_matrix * view_matrix;
+	}
+
+	void updateViewMatrix() {
+		forward.normalize();
+		lm::vec3 target = position + forward;
+		view_matrix.lookAt(position, target, up);
+	}
+
+	void setPerspective(float fov_rad, float aspect, float near, float far) {
+
+		projection_matrix.perspective(fov_rad , aspect, near, far);
+	}
 
 };
 

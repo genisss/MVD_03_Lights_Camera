@@ -12,6 +12,7 @@ struct Geometry {
     GLuint num_tris;
     Geometry() { vao = 0; num_tris = 0;}
     Geometry(int a_vao, int a_tris) : vao(a_vao), num_tris(a_tris) {}
+
 };
 
 struct Material {
@@ -51,6 +52,8 @@ public:
     
     //getters
     Material& getMaterial(int mat_id) { return materials_.at(mat_id); }
+
+	float time;
 
 private:
     //resources
